@@ -1,45 +1,63 @@
 const request = require('supertest');
-const app = require('../app');
-const TodoModel = require('../models/todosModel');
+const app = require('../app'); // the express server
+const TodoModel = require('../models/todoModel');
 
-// 初始化
+let testTodo;
+
 beforeEach(() => {
+  // 每次測試前重設資料
   TodoModel.todos = [
     { id: '1', title: 'Test Todo 1', completed: false },
     { id: '2', title: 'Test Todo 2', completed: true },
   ];
-  console.log(TodoModel.todos);
+  testTodo = TodoModel.todos[0];
 });
 
-// 測試 '自定義名稱', callback function
-test('取得所有代辦事項', async () => {
+test('取得所有待辦事項', async () => {
   const res = await request(app).get('/todos');
-  // 請求的結果 === 與資料庫一致
-  // 斷言
-  expect(res.body).toEqual(TodoModel.todos); // 物件
-  expect(res.statusCode).toBe(200)
-});
-
-test('建立新的代辦事項', async () => {
-  const newTodo = {
-    title: 'test 3',
-    completed: false
-  }
-  const res = await request(app).post('/todos').send(newTodo)
-  console.log(res.body);
-  expect(res.body.title).toBe(newTodo.title);
-  expect(res.body.completed).toBe(newTodo.completed);
   expect(res.statusCode).toBe(200);
+  expect(res.body).toEqual(TodoModel.todos);
 });
 
+test('透過 ID 取得特定待辦事項', async () => {
+  const res = await request(app).get(`/todos/${testTodo.id}`);
+  expect(res.statusCode).toBe(200);
+  expect(res.body).toEqual(testTodo);
+});
 
-// 錯誤測試
-test('建立代辦，但缺少 title 欄位', async () => {
-  const newTodo = {
-    completed: false,
-  };
+test('建立新的待辦事項', async () => {
+  const newTodo = { title: 'Test Todo 3', completed: false };
+  const res = await request(app).post('/todos').send(newTodo);
+  expect(res.statusCode).toBe(200);
+  expect(res.body.title).toEqual(newTodo.title);
+  expect(res.body.completed).toEqual(newTodo.completed);
+});
 
-  const res = await request(app).post('/todos').send(newTodo)
+test('更新特定待辦事項', async () => {
+  const updatedTodo = { title: 'Updated Todo', completed: true };
+  const res = await request(app).put(`/todos/${testTodo.id}`).send(updatedTodo);
+  expect(res.statusCode).toBe(200);
+  expect(res.body.title).toEqual(updatedTodo.title);
+  expect(res.body.completed).toEqual(updatedTodo.completed);
+});
+
+test('刪除特定待辦事項', async () => {
+  const res = await request(app).delete(`/todos/${testTodo.id}`);
+  expect(res.statusCode).toBe(200);
+  const deletedTodo = TodoModel.get(testTodo.id);
+  expect(deletedTodo).toBeUndefined();
+});
+
+// 錯誤流程測試
+test('透過不存在的 ID 取得待辦事項', async () => {
+  const res = await request(app).get('/todos/non-existent-id');
+  expect(res.statusCode).toBe(404);
+  expect(res.text).toBe('Todo not found');
+});
+
+test('建立待辦事項但缺少標題', async () => {
+  const newTodo = { completed: false };
+  const res = await request(app).post('/todos').send(newTodo);
   expect(res.statusCode).toBe(400);
   expect(res.text).toBe('缺少 title 欄位');
 });
