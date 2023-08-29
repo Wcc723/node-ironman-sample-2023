@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../app'); // the express server
-const TodoModel = require('../models/todoModel');
+const TodoModel = require('../models/todosModel');
 
 let testTodo;
 
