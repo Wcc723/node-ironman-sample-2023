@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "swagger": "node ./swagger.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -15,6 +16,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "sass": "^1.66.1",
+    "swagger-autogen": "^2.23.5",
+    "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
