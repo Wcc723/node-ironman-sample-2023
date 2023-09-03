@@ -20,7 +20,8 @@
     "sass": "^1.66.1",
     "swagger-autogen": "^2.23.5",
     "swagger-ui-express": "^5.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "jest": "^29.6.4",

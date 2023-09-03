@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('pnpm:server');
 var http = require('http');
+const {parse} = require('url')
+const wss1 = require('../routes/ws')
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +22,18 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+server.on('upgrade', function upgrade(request, socket, head) {
+  const { pathname } = parse(request.url);
+
+  if (pathname === '/ws') {
+    wss1.handleUpgrade(request, socket, head, function done(ws) {
+      wss1.emit('connection', ws, request);
+    });
+  } else {
+    socket.destroy();
+  }
+});
 
 /**
  * Listen on provided port, on all network interfaces.

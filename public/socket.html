@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul id="list"></ul>
+  <input type="text" id="message">
+  <button type="button" id="sendBtn">送出</button>
+  <p>uuid: <span id="uuid"></span></p>
+  <script>
+    const host = 'ws://localhost:3000/ws'
+    const inputMessage = document.querySelector('#message')
+    const spanUUID = document.querySelector('#uuid')
+    const ulList = document.querySelector('#list')
+    const btnSend = document.querySelector('#sendBtn')
+
+    const ws = new WebSocket(host)
+    ws.onopen = (res) => {
+      console.log(res);
+    }
+
+    const messages = []
+    ws.onmessage = (res) => {
+      const data = JSON.parse(res.data)
+      console.log(data);
+      if (data.context === 'user') {
+        spanUUID.innerHTML = data.uuid
+      } else if (data.context === 'message') {
+        messages.push(data)
+        const html = messages.map((item) => {
+          return `<li>${item.content}</li>`
+        }).join('')
+        ulList.innerHTML = html
+      }
+    }
+
+    btnSend.addEventListener('click', () => {
+      const value = inputMessage.value
+      ws.send(JSON.stringify({
+        content: value
+      }))
+    })
+
+
+  </script>
+</body>
+</html>
