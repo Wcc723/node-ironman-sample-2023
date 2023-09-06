@@ -10,6 +10,7 @@
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "dotenv": "^16.0.1",
+    "ecpay_aio_nodejs": "^1.0.2",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",

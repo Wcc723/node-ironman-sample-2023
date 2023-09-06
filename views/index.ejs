@@ -2,24 +2,11 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <form action="/createOrder" method="post">
-      <div>
-        email
-        <input type="email" name="Email" value="" />
-      </div>
-      <div>
-        Amt
-        <input type="number" name="Amt" value="1000" />
-      </div>
-      <div>
-        ItemDesc
-        <input type="text" name="ItemDesc" value="測試商品" />
-      </div>
-      <button type="submit">送出</button>
-    </form>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <%- html %>
   </body>
 </html>
