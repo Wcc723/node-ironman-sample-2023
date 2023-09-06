@@ -66,7 +66,7 @@ router.get('/', (req, res) => {
 
 // 後端接收綠界回傳的資料
 router.post('/return', async (req, res) => {
-  console.log('req.body:', req.data);
+  console.log('req.body:', req.body);
 
   const { CheckMacValue } = req.body;
   const data = { ...req.body };
