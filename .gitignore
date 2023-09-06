@@ -1,3 +1,2 @@
-node_modules
-swagger-output.json
+/node_modules
 .env

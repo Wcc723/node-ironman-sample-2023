@@ -1,31 +1,18 @@
 {
-  "name": "pnpm",
+  "name": "hello-world",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "test": "jest",
-    "test:watch": "jest --watchAll",
-    "swagger": "node ./swagger.js"
+    "start": "node ./bin/www"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
+    "crypto": "^1.0.1",
     "debug": "~2.6.9",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.0.1",
+    "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "jsonwebtoken": "^9.0.2",
-    "morgan": "~1.9.1",
-    "sass": "^1.66.1",
-    "swagger-autogen": "^2.23.5",
-    "swagger-ui-express": "^5.0.0",
-    "uuid": "^9.0.0",
-    "ws": "^8.13.0"
-  },
-  "devDependencies": {
-    "jest": "^29.6.4",
-    "supertest": "^6.3.3"
+    "morgan": "~1.9.1"
   }
 }
