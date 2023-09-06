@@ -7,7 +7,7 @@
   </head>
   <body>
     <div id="app">
-      <form action="<%= PayGateWay %>" method="post">
+      <form action="<%- PayGateWay %>" method="post">
         <input type="text" name="MerchantID" value="<%- MerchantID %>" />
         <input type="text" name="TradeSha" value="<%- order.shaEncrypt %>" />
         <input type="text" name="TradeInfo" value="<%- order.aesEncrypt %>" />
