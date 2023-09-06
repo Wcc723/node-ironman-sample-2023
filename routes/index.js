@@ -122,7 +122,7 @@ function genDataChain(order) {
 // 對應文件 P17：使用 aes 加密
 // $edata1=bin2hex(openssl_encrypt($data1, "AES-256-CBC", $key, OPENSSL_RAW_DATA, $iv));
 function createSesEncrypt(TradeInfo) {
-  const encrypt = crypto.createCipheriv('aes256', HASHKEY, HASHIV);
+  const encrypt = crypto.createCipheriv('aes-256-cbc', HASHKEY, HASHIV);
   const enc = encrypt.update(genDataChain(TradeInfo), 'utf8', 'hex');
   return enc + encrypt.final('hex');
 }
