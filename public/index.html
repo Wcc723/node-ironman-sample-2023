@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+  </head>
+  <body>
+    <form action="/login" method="POST">
+      <button type="submit">登入</button>
+    </form>
+
+    <button id="getUserData">取得用戶資料</button>
+
+    <script>
+      const getUserData = document.querySelector('#getUserData');
+      const token = document.cookie
+        ?.split('; ')
+        ?.find((row) => row.startsWith('token='))
+        ?.split('=')[1];
+      getUserData.addEventListener('click', () => {
+        axios
+          .get('/user', {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    </script>
+  </body>
+</html>
