@@ -5,11 +5,11 @@ const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const { GOOGLE_CLIENT_ID, GOOGLE_SECRET_KET, JWT_SECRET, HOST } = process.env;
+const { GOOGLE_CLIENT_ID, GOOGLE_SECRET_KEY, JWT_SECRET, HOST } = process.env;
 
 const client = new OAuth2Client({
   clientId: GOOGLE_CLIENT_ID,
-  clientSecret: GOOGLE_SECRET_KET,
+  clientSecret: GOOGLE_SECRET_KEY,
   redirectUri: `${HOST}/callback`,
 });
 
