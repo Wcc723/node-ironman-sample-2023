@@ -1,10 +1,10 @@
-# Google 第三方登入
+# GiHub 第三方登入
 
 ## 安裝及運行
 
 1. 建立環境變數
 
-請自行至 [Google Developers Console](https://console.developers.google.com/) 申請 OAuth 2.0 憑證，並將 .env.sample 轉為 `.env` 檔案，且按照需求填入。
+請自行至 [GitHub Developer Settings](https://github.com/settings/developers) 申請 OAuth 2.0 憑證，並將 .env.sample 轉為 `.env` 檔案，且按照需求填入。
 
 2. 終端機輸入：
 
@@ -46,6 +46,4 @@ npm start
 
 ## 參考
 
-- [Google Developers Console](https://console.developers.google.com/)
-- [Google Auth Library](https://www.npmjs.com/package/google-auth-library)
-- [OpenID Connect Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata)
+- [GitHub Developer Settings](https://github.com/settings/developers)
