@@ -1,4 +1,4 @@
-# Google 第三方登入
+# AWS S3 Node.js 上傳範例
 
 ## 安裝及運行
 
