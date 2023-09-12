@@ -4,7 +4,7 @@
 
 1. 建立環境變數
 
-請自行至 [Google Developers Console](https://console.developers.google.com/) 申請 OAuth 2.0 憑證，並將 .env.sample 轉為 `.env` 檔案，且按照需求填入。
+請自行至 [AWS 網站](https://aws.amazon.com/tw/) 透過 IAM 申請專屬 Access key 以及建立儲存桶(Bucket)，並將 .env.sample 轉為 `.env` 檔案，且按照需求填入。
 
 2. 終端機輸入：
 
@@ -13,7 +13,7 @@ npm install
 npm start
 ```
 
-並直接開啟服務 `{host}/index.html` 即可體驗第三方登入的功能。
+並直接開啟服務 `{host}/index.html` 即可體驗靜態檔案上傳功能。
 
 ## 專案檔案說明
 
@@ -33,7 +33,7 @@ npm start
     </tr>
     <tr>
       <td>/routes/index.js</td>
-      <td>主要第三方登入範例檔案</td>
+      <td>主要檔案上傳範例檔案</td>
       <td></td>
     </tr>
     <tr>
@@ -46,6 +46,6 @@ npm start
 
 ## 參考
 
-- [Google Developers Console](https://console.developers.google.com/)
-- [Google Auth Library](https://www.npmjs.com/package/google-auth-library)
-- [OpenID Connect Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata)
+- [AWS 雲服務](https://aws.amazon.com/tw/)
+- [@aws-sdk/client-s3](https://www.npmjs.com/package/@aws-sdk/client-s3) 
+- [Multer](https://www.npmjs.com/package/multer)
