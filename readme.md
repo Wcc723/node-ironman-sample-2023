@@ -1,10 +1,10 @@
-# AWS S3 Node.js 上傳範例
+# Firebase Storage Node.js 上傳範例
 
 ## 安裝及運行
 
 1. 建立環境變數
 
-請自行至 [AWS 網站](https://aws.amazon.com/tw/) 透過 IAM 申請專屬 Access key 以及建立儲存桶(Bucket)，並將 .env.sample 轉為 `.env` 檔案，且按照需求填入。
+請自行至 [Firebase 網站](https://firebase.google.com/) 建立專案，且下載專案的私密金鑰，並將 .env.sample 轉為 `.env` 檔案，且按照需求填入。
 
 2. 終端機輸入：
 
@@ -46,6 +46,6 @@ npm start
 
 ## 參考
 
-- [AWS 雲服務](https://aws.amazon.com/tw/)
-- [@aws-sdk/client-s3](https://www.npmjs.com/package/@aws-sdk/client-s3) 
+- [Firebase](https://firebase.google.com/)
+- [Firebase Admin](https://www.npmjs.com/package/firebase-admin) 
 - [Multer](https://www.npmjs.com/package/multer)

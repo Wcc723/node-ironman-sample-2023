@@ -1,69 +1,75 @@
-const express = require('express'); // 引入 Express 框架
+const express = require('express');
 const router = express.Router();
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3'); // 引入 AWS SDK S3 的客戶端和命令
-const multer = require('multer'); // 引入 multer 用於處理上傳的檔案
-require('dotenv').config(); // 載入環境變數
+const admin = require('firebase-admin');
+const multer = require('multer');
+require('dotenv').config();
 
-// 從環境變數中取得 AWS 設定
+// 初始化 Firebase Admin SDK
+// 載入 Firebase Admin 資源配置
 const {
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY,
-  S3_BUCKET_REGION,
-  BUCKET_NAME,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_PRIVATE_KEY_ID,
+  FIREBASE_PRIVATE_KEY,
+  FIREBASE_CLIENT_EMAIL,
+  FIREBASE_STORAGE_BUCKET,
 } = process.env;
 
-// 建立新的 S3 用戶端實例，設定區域和認證資訊
-const s3Client = new S3Client({
-  region: S3_BUCKET_REGION,
-  credentials: {
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-  },
+const serviceAccount = {
+  type: 'service_account',
+  project_id: FIREBASE_PROJECT_ID,
+  private_key_id: FIREBASE_PRIVATE_KEY_ID,
+  private_key: FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  client_email: FIREBASE_CLIENT_EMAIL,
+};
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: FIREBASE_STORAGE_BUCKET,
 });
 
-// 使用 multer 設定上傳儲存和檔案過濾規則
-const upload = multer({
-  storage: multer.memoryStorage(), // 使用記憶體儲存，檔案將保存在 RAM 中
-  fileFilter: function (req, file, cb) {
-    // 驗證檔案類型，只接受 jpg 和 png 格式
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      return cb(new Error('Only jpg and png formats are allowed!'), false);
-    }
-    cb(null, true);
-  },
-});
+const bucket = admin.storage().bucket();
 
-// 建立 POST 路由用於上傳檔案到 AWS S3
-router.post('/upload', upload.single('file'), async (req, res) => {
-  if (req.file) {
-    const key = Date.now().toString() + '-' + req.file.originalname; // 生成檔案名稱
+// 設定 Multer 的存儲設定
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
-    try {
-      // 建立並發送 PutObjectCommand
-      // PutObjectCommand 用於將檔案上傳到 Amazon Simple Storage Service (Amazon S3) 的儲存桶（bucket）。
-      const command = new PutObjectCommand({
-        Bucket: BUCKET_NAME,
-        Key: key,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-      });
-      await s3Client.send(command); // 發送命令
+// ------------------------------
+// 定義 '/upload' 路由，用於上傳圖片
+router.post('/upload', upload.single('file'), (req, res) => {
+  console.log(req.file);
 
-      // 創建 S3 的 URL
-      const imageUrl = `https://${BUCKET_NAME}.s3.${S3_BUCKET_REGION}.amazonaws.com/${key}`;
-
-      // 回傳成功訊息和圖片 URL
-      res.json({
-        message: '檔案上傳成功！',
-        imageUrl: imageUrl,
-      });
-    } catch (error) {
-      console.log(error); // 錯誤訊息
-      res.status(500).send('檔案上傳失敗'); // 回傳上傳失敗訊息
-    }
-  } else {
-    res.status(400).send('沒有上傳檔案'); // 沒有上傳檔案，回傳錯誤訊息
+  // 檢查是否有文件被上傳
+  if (!req.file) {
+    res.status(400).send('沒有檔案上傳');
+    return;
   }
+
+  // 創建一個參考到 Firebase Storage 的文件，使用上傳的文件名
+  const blob = bucket.file(req.file.originalname);
+
+  // 創建一個寫入流來上傳文件到 Firebase Storage
+  const blobStream = blob.createWriteStream({
+    metadata: {
+      // 設定文件的 MIME 類型
+      contentType: req.file.mimetype,
+    },
+  });
+
+  // 如果上傳過程中出現錯誤，返回 500 狀態碼和錯誤訊息
+  blobStream.on('error', (error) => {
+    res.status(500).send(error);
+  });
+
+  // 當文件上傳完成時，回傳文件在 Firebase Storage 的公開 URL
+  blobStream.on('finish', () => {
+    const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
+      bucket.name
+    }/o/${encodeURI(blob.name)}?alt=media`;
+    res.status(200).send(publicUrl);
+  });
+
+  // 開始上傳文件，使用上傳的文件 buffer
+  blobStream.end(req.file.buffer);
 });
 
-module.exports = router; // 導出路由器模組
+module.exports = router;

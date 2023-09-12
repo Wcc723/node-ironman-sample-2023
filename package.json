@@ -6,11 +6,11 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.410.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.3.1",
     "express": "~4.16.1",
+    "firebase-admin": "^11.10.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^9.0.1",
