@@ -1,0 +1,23 @@
+name: 部署 PM2 專案
+
+on:
+  push: 
+    branches:
+      - feature/action-pm2
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: npm install, build and test
+        run: |
+          npm install
+          npm run swagger
