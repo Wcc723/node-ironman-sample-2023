@@ -24,7 +24,8 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo ENV_VARIABLE=${{ secrets.ENV_VARIABLE }} >> .env
+          echo ENV_VARIALBES=${{ secrets.ENV_VARIALBES }} >> .env
+          echo PORT=${{ secrets.ENV_PORT }} >> .env
         # 然後再執行 rsync 來將 .env 文件傳輸到虛擬主機
 
       - name: Install SSH key  # 第二步，安裝 SSH 密鑰
