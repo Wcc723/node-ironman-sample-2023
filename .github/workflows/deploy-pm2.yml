@@ -21,3 +21,29 @@ jobs:
         run: |
           npm install
           npm run swagger
+
+      - name: Create .env file
+        run: |
+          echo ENV_VARIABLE=${{ secrets.ENV_VARIABLE }} >> .env
+        # 然後再執行 rsync 來將 .env 文件傳輸到虛擬主機
+
+      - name: Install SSH key  # 第二步，安裝 SSH 密鑰
+        uses: webfactory/ssh-agent@v0.5.3  # 使用第三方的 ssh-agent 動作
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}  # 從 GitHub Secrets 中取得私鑰
+
+      - name: 更新 known_hosts 文件  # 步驟的名稱
+        run: |  # 將要執行的命令
+          mkdir -p ~/.ssh  # 在用戶的主目錄下創建 .ssh 目錄，如果該目錄已存在，則不會報錯
+          ssh-keyscan 139.162.122.39 >> ~/.ssh/known_hosts  # 從指定的主機獲取公鑰，並將其追加到 known_hosts 文件中
+        # 請將 'hostname' 替換為你的服務器地址，例如 IP 地址或域名
+
+      - name: Transfer files  # 第六步，傳輸文件
+        run: rsync -avz --delete ./ root@139.162.122.39:~/website-sample/node-ironman-sample-2023/  # 使用 rsync 命令將文件傳輸到虛擬主機
+        # root@hostname 請替換成相應的帳號及主機位置(ip 或網址)
+        env:
+          ENV_VARIABLE: ${{ secrets.ENV_VARIABLE }}  # 從 GitHub Secrets 中取得環境變數的值
+        # root@hostname 請替換成相應的帳號及主機位置(ip 或網址)
+
+      - name: Restart PM2  # 第八步，重啟 PM2
+        run: ssh root@139.162.122.39 'cd ~/website-sample/node-ironman-sample-2023/ && pm2 restart www --update-env'  # 透過 SSH 連到虛擬主機，然後進到應用程式的目錄，並重啟所有 PM2 管理的應用程式
