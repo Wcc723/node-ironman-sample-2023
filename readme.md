@@ -61,4 +61,5 @@ npm start
 ## 參考
 
 - 藍新金流開發文件：https://www.newebpay.com/website/Page/content/download_api
+- npm node-newebpay：https://www.npmjs.com/package/node-newebpay
 - 部落格資料：https://ctaohe.github.io/2019/10/19/2019-10-19_newebpay/
