@@ -41,8 +41,12 @@ jobs:
         ssh-keyscan ${{ secrets.HOST_NAME }} >> ~/.ssh/known_hosts  # 從指定的主機獲取公鑰，並將其追加到 known_hosts 文件中
       # 請將 'hostname' 替換為你的服務器地址，例如 IP 地址或域名
 
+    - name: Create directory if not exists # 確保資料夾是存在的
+      run: ssh root@${{ secrets.HOST_NAME }} "mkdir -p /websample/node-env/"
+
     - name: Transfer .env file # 上傳環境變數
       run: scp .env root@${{ secrets.HOST_NAME }}:/websample/node-env/
+
 
     - name: Deploy to Docker
       run: |
