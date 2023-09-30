@@ -52,6 +52,7 @@ jobs:
         ssh root@${{ secrets.HOST_NAME }} '
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/ironman-app-2023-amd64:latest
           docker rm -f github-ac-sample || true
-          docker run -d -p 3003:3000 --name github-ac-sample --env-file websample/node-env/.env ${{ secrets.DOCKER_HUB_USERNAME }}/ironman-app-2023-amd64:latest
+          REAL_PATH=$(eval echo ~)/websample/node-env/.env
+          docker run -d -p 3003:3000 --name github-ac-sample --env-file $REAL_PATH casper723/ironman-app-2023-amd64:latest
         '
-      # Docker 指令中，不能使用 `~` 路徑，可以改用 $HOME 來替代
+      # Docker 指令中，不能使用 `~` 路徑，所以使用替代語法展開
