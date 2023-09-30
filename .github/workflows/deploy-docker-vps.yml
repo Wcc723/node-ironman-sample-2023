@@ -46,7 +46,7 @@ jobs:
 
     - name: Deploy to Docker
       run: |
-        ssh user@${{ secrets.HOST_NAME }} '
+        ssh root@${{ secrets.HOST_NAME }} '
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/github-action-sample:latest
           docker rm -f github-ac-sample
           docker run -d -p 3003:3000 --name github-ac-sample --env-file /websample/ironman-sample/.env ${{ secrets.DOCKER_HUB_USERNAME }}/github-action-sample:latest
