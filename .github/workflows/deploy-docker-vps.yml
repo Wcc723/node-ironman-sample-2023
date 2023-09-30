@@ -42,13 +42,13 @@ jobs:
       # 請將 'hostname' 替換為你的服務器地址，例如 IP 地址或域名
 
     - name: Transfer .env file # 上傳環境變數
-      run: scp .env root@${{ secrets.HOST_NAME }}:/websample/node-env
+      run: scp .env root@${{ secrets.HOST_NAME }}:/websample/node-env/
 
     - name: Deploy to Docker
       run: |
         ssh root@${{ secrets.HOST_NAME }} '
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/github-action-sample:latest
-          docker rm -f github-ac-sample
+          docker rm -f github-ac-sample || true
           docker run -d -p 3003:3000 --name github-ac-sample --env-file /websample/node-env/.env ${{ secrets.DOCKER_HUB_USERNAME }}/github-action-sample:latest
         '
       # 這裡假設你的 Docker 容器需要監聽 3000 端口，並且你將這個端口映射到虛擬主機的 3000 端口
