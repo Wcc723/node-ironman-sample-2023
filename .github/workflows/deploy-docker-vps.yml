@@ -38,7 +38,7 @@ jobs:
     - name: 更新 known_hosts 文件  # 步驟的名稱
       run: |  # 將要執行的命令
         mkdir -p ~/.ssh  # 在用戶的主目錄下創建 .ssh 目錄，如果該目錄已存在，則不會報錯
-        ssh-keyscan hostname >> ~/.ssh/known_hosts  # 從指定的主機獲取公鑰，並將其追加到 known_hosts 文件中
+        ssh-keyscan ${{ secrets.HOST_NAME }} >> ~/.ssh/known_hosts  # 從指定的主機獲取公鑰，並將其追加到 known_hosts 文件中
       # 請將 'hostname' 替換為你的服務器地址，例如 IP 地址或域名
 
     - name: Transfer .env file # 上傳環境變數
