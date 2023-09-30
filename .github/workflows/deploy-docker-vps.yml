@@ -52,7 +52,6 @@ jobs:
         ssh root@${{ secrets.HOST_NAME }} '
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/ironman-app-2023-amd64:latest
           docker rm -f github-ac-sample || true
-          docker run -d -p 3003:3000 --name github-ac-sample --env-file ~/websample/node-env/.env ${{ secrets.DOCKER_HUB_USERNAME }}/ironman-app-2023-amd64:latest
+          docker run -d -p 3003:3000 --name github-ac-sample --env-file $HOME/websample/node-env/.env ${{ secrets.DOCKER_HUB_USERNAME }}/ironman-app-2023-amd64:latest
         '
-      # 這裡假設你的 Docker 容器需要監聽 3000 端口，並且你將這個端口映射到虛擬主機的 3000 端口
-      # 其中的 user、hostname、github-action-sample、github-ac-sample、/path/to/your/app/.env，請自行替換成對應的名稱及路徑
+      # Docker 指令中，不能使用 `~` 路徑，可以改用 $HOME 來替代
