@@ -52,7 +52,6 @@ jobs:
         ssh root@${{ secrets.HOST_NAME }} '
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/ironman-app-2023-amd64:latest
           docker rm -f github-ac-sample || true
-          REAL_PATH=$(eval echo ~)/websample/node-env/.env
-          docker run -d -p 3003:3000 --name github-ac-sample --env-file $REAL_PATH casper723/ironman-app-2023-amd64:latest
+          docker run -d -p 3003:3000 --name github-ac-sample --env-file /root/websample/node-env/.env ${{ secrets.DOCKER_HUB_USERNAME }}/ironman-app-2023-amd64:latest
         '
-      # Docker 指令中，不能使用 `~` 路徑，所以使用替代語法展開
+      # Docker 指令中，不能使用 `~` 路徑，建議替換為其他的絕對路徑名稱（此範例作為演示直接使用 `/root`）
