@@ -17,6 +17,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.3",
     "morgan": "~1.9.1",
     "sass": "^1.66.1",
     "swagger-autogen": "^2.23.5",

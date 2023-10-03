@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  mongo: # 服務名稱
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=docker-sample-products
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+
+  webservice: # 服務名稱
+    image: casper723/ironman-app-2023-mongo:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo/docker-sample-products?authSource=admin
+      - VARIABLE=${VARIABLE}
+      - MONGO_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    depends_on:
+      - mongo
+    restart: on-failure
+
+
+volumes:
+  mongo-data:
