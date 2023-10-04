@@ -38,9 +38,9 @@ jobs:
     - name: Create and transfer .env file to remote server
       run: |
         echo "Creating .env file"
-        echo MONGO_ROOT_USERNAME=${{ env.MONGO_ROOT_USERNAME }} > .env
-        echo MONGO_ROOT_PASSWORD=${{ env.MONGO_ROOT_PASSWORD }} >> .env
-        echo VARIABLE=${{ env.VARIABLE }} >> .env
+        echo MONGO_ROOT_USERNAME=${{ secrets.MONGO_ROOT_USERNAME }} > .env
+        echo MONGO_ROOT_PASSWORD=${{ secrets.MONGO_ROOT_PASSWORD }} >> .env
+        echo VARIABLE=${{ secrets.VARIABLE }} >> .env
 
         echo "Transferring .env file to remote server"
         scp .env root@${{ secrets.HOST_NAME }}:/root/.env
