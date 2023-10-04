@@ -40,7 +40,7 @@ jobs:
         echo "Creating .env file"
         echo MONGO_ROOT_USERNAME=${{ secrets.MONGO_ROOT_USERNAME }} > .env
         echo MONGO_ROOT_PASSWORD=${{ secrets.MONGO_ROOT_PASSWORD }} >> .env
-        echo VARIABLE=${{ secrets.VARIABLE }} >> .env
+        echo VARIABLE=${{ secrets.ENV_VARIABLE }} >> .env
 
         echo "Transferring .env file to remote server"
         scp .env root@${{ secrets.HOST_NAME }}:/root/.env
