@@ -48,6 +48,3 @@ jobs:
     - name: Copy docker-compose.yml to remote server
       run: |
         ssh root@${{ secrets.HOST_NAME }} "docker-compose --env-file /root/.env -f /root/docker-compose.yml up -d"
-    - name: Deploy with Docker Compose
-      run: |
-        ssh root@${{secrets.HOST_NAME}} "docker-compose -f /root/docker-compose.yml up -d"

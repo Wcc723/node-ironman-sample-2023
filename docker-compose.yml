@@ -14,7 +14,7 @@ services:
     restart: on-failure
 
   mongo: # 服務名稱
-    image: mongo:latest
+    image: mongo:latest # dokcer hub
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
