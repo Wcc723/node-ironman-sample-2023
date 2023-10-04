@@ -22,7 +22,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sample-node-express:latest
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ironman-app-2023-mongo-amd64:latest
         push: true
 
     - name: Install SSH key  # 第二步，安裝 SSH 密鑰

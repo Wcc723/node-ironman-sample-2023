@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   webservice: # 服務名稱
-    image: casper723/ironman-app-2023-mongo:latest
+    image: casper723/ironman-app-2023-mongo-amd64:latest
     ports:
       - "3000:3000"
     environment:
