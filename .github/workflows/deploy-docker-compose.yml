@@ -33,13 +33,13 @@ jobs:
     - name: Update known_hosts
       run: |
         mkdir -p ~/.ssh
-        ssh-keyscan ${{HOST_NAME}} >> ~/.ssh/known_hosts
+        ssh-keyscan ${{secrets.HOST_NAME}} >> ~/.ssh/known_hosts
     - name: Copy docker-compose.yml to remote server
       run: |
-        scp ./docker-compose.yml root@${{HOST_NAME}}:/root/docker-compose.yml
+        scp ./docker-compose.yml root@${{secrets.HOST_NAME}}:/root/docker-compose.yml
     - name: Deploy with Docker Compose
       run: |
-        ssh root@${{HOST_NAME}} "docker-compose -f /root/docker-compose.yml up -d"
+        ssh root@${{secrets.HOST_NAME}} "docker-compose -f /root/docker-compose.yml up -d"
       env:
         ENV_VARIABLE: ${{ secrets.ENV_VARIABLE }}
         MONGO_ROOT_USERNAME: ${{ secrets.MONGO_ROOT_USERNAME }}
