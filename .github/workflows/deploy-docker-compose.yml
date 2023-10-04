@@ -3,7 +3,7 @@ name: Deploy to Portainer
 on:
   push:
     branches:
-      - docker-compose
+      - feature/action-docker-compose
 
 jobs:
   build-and-push:
