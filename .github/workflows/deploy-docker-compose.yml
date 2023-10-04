@@ -8,6 +8,11 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    env:
+      VARIABLE: ${{ secrets.ENV_VARIABLE }}
+      MONGO_ROOT_USERNAME: ${{ secrets.MONGO_ROOT_USERNAME }}
+      MONGO_ROOT_PASSWORD: ${{ secrets.MONGO_ROOT_PASSWORD }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -40,7 +45,3 @@ jobs:
     - name: Deploy with Docker Compose
       run: |
         ssh root@${{secrets.HOST_NAME}} "docker-compose -f /root/docker-compose.yml up -d"
-      env:
-        VARIABLE: ${{ secrets.ENV_VARIABLE }}
-        MONGO_ROOT_USERNAME: ${{ secrets.MONGO_ROOT_USERNAME }}
-        MONGO_ROOT_PASSWORD: ${{ secrets.MONGO_ROOT_PASSWORD }}
