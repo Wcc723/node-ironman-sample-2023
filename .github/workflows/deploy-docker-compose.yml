@@ -45,6 +45,10 @@ jobs:
         echo "Transferring .env file to remote server"
         scp .env root@${{ secrets.HOST_NAME }}:/root/.env
 
+    - name: Upload docker-compose.yml to remote server
+      run: |
+        scp ./docker-compose.yml root@${{ secrets.HOST_NAME }}:/root/docker-compose.yml
+
     - name: Copy docker-compose.yml to remote server
       run: |
         ssh root@${{ secrets.HOST_NAME }} "docker-compose --env-file /root/.env -f /root/docker-compose.yml up -d"
