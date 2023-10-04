@@ -26,15 +26,24 @@ const connectionString =
   process.env.MONGODB_URI ||
   `mongodb://${username}:${password}@localhost:27017/${dbName}?authMechanism=${authMechanism}`;
 
-mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function connectWithRetry() {
+  try {
+    await mongoose.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log('MongoDB 已經連線');
-  })
-  .catch((err) => console.log(err));
+  } catch (err) {
+    console.log('MongoDB 連線錯誤, 五秒後重試...', err);
+    await sleep(5000);
+    return connectWithRetry();
+  }
+  console.log('MongoDB connected successfully');
+}
+
+connectWithRetry();
 // MongoDB 連線 End
 
 var app = express();
