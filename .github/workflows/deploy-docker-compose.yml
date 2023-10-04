@@ -41,6 +41,6 @@ jobs:
       run: |
         ssh root@${{secrets.HOST_NAME}} "docker-compose -f /root/docker-compose.yml up -d"
       env:
-        ENV_VARIABLE: ${{ secrets.ENV_VARIABLE }}
+        VARIABLE: ${{ secrets.ENV_VARIABLE }}
         MONGO_ROOT_USERNAME: ${{ secrets.MONGO_ROOT_USERNAME }}
         MONGO_ROOT_PASSWORD: ${{ secrets.MONGO_ROOT_PASSWORD }}
