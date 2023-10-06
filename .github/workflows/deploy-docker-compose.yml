@@ -3,7 +3,7 @@ name: Deploy to Portainer
 on:
   push:
     branches:
-      - feature/action-docker-compose
+      - feature/action-docker-traefik
 
 jobs:
   build-and-push:
