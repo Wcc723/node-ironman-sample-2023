@@ -31,6 +31,8 @@ services:
       - mongo-data:/data/db
     ports:
       - "27017:27017"
+    networks: # 此網路設定需要與 traefik 一致
+      - casper
 
 
 volumes:
