@@ -12,6 +12,14 @@ services:
     depends_on:
       - mongo
     restart: on-failure
+    networks: # 此網路設定需要與 traefik 一致
+      - casper
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.webservice.entrypoints=web" # 使用 web 入口點，對應到 80 端口
+      - "traefik.http.routers.webservice.rule=Host(`node-service.casper2023.cc`)" # 對應到 custom2.xxx 主機名
+      - "traefik.http.routers.webservice.service=webservice" # 設置服務名稱
+      - traefik.http.services.webservice.loadbalancer.server.port=3000
 
   mongo: # 服務名稱
     image: mongo:latest # dokcer hub
@@ -26,3 +34,7 @@ services:
 
 volumes:
   mongo-data:
+
+networks:
+  casper:
+      name: casper-network
